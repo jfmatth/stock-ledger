@@ -1,4 +1,7 @@
 from django.db import models
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Create your models here.
 class Rawcsv(models.Model):
@@ -20,7 +23,6 @@ class Rawcsv(models.Model):
         return f'{self.name} - {self.ingested} - {self.type}'
 
 
-
 class Rawtransactions(models.Model):
     date = models.DateField()
     transid = models.TextField(max_length=20,  db_index=True)
@@ -32,3 +34,8 @@ class Rawtransactions(models.Model):
 
     def __str__(self) -> str:
         return f'{self.date} - {self.transid}'
+
+
+def ingestRawcsv(filein):
+    logger.info(f"Ingesting {filein}")
+    pass
