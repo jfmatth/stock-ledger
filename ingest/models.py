@@ -8,6 +8,7 @@ class Rawcsv(models.Model):
     CSV_TYPE = [
         ("SC", "Schwab"),
         ("TD", "TD Ameritrade"),
+        ("UN", "Unknown"),
     ]
 
     name = models.CharField(max_length=30, blank=True)
@@ -16,7 +17,7 @@ class Rawcsv(models.Model):
     type = models.CharField(
         max_length=2,
         choices=CSV_TYPE, 
-        default="TD",
+        default="UN",
     )
 
     def __str__(self) -> str:
@@ -38,4 +39,10 @@ class Rawtransactions(models.Model):
 
 def ingestRawcsv(filein):
     logger.info(f"Ingesting {filein}")
-    pass
+
+    r = Rawcsv()
+    r.name = filein
+    r.csvfile = open(filein,'r').read()
+    r.ingested = False
+    r.save()
+    
