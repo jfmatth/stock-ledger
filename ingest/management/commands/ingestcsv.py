@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 import logging
 logger = logging.getLogger(__name__)
 
-from ingest.models import ingestRawcsv
+from ingest.models import ingestRawcsv, processRawcsv
 
 # turn this into a management command.
 class Command(BaseCommand):
@@ -15,6 +15,5 @@ class Command(BaseCommand):
         parser.add_argument("filename", nargs=1, type=str, help="filename to ingest")
 
     def handle(self, *args, **options):
-        logger.info('Ingest CSV')
         ingestRawcsv(options['filename'][0])
-        logger.info('done')
+        processRawcsv()
