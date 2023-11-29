@@ -34,8 +34,14 @@ class Rawtransactions(models.Model):
     price = models.DecimalField(max_digits=20, decimal_places=4, null=True)
     amount = models.DecimalField(max_digits=20, decimal_places=4, null=True)
 
+    rawline= models.TextField(default='')
+
     def __str__(self) -> str:
-        return f'{self.date} - {self.transid}'
+        return f'{self.date} - {self.description}'
+    
+    def strikedate(self):
+        # returns the strike date or None based on the description
+        pass
 
 
 def ingestRawcsv(filein):
@@ -107,4 +113,5 @@ def processTDcsv(csvtext):
             obj.symbol = fields[4]
             obj.price = 0 if fields[5]=="" else fields[5]
             obj.amount = 0 if fields[6]=="" else fields[6]
+            obj.rawline = line
             obj.save()
